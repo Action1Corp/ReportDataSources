@@ -1,5 +1,5 @@
 # Name: Detect Local Admin Solution.ps1
-# Description: Data Source used to identify systems for WinRe Fix
+# Description: Creates local admin account to use with remote access, that auto disables on first use.
 # Copyright (C) 2024 Action1 Corporation
 # Documentation: https://github.com/Action1Corp/ReportDataSources
 # Use Action1 Roadmap system (https://roadmap.action1.com/) to submit feedback or enhancement requests.
