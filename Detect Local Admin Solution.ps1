@@ -1,5 +1,5 @@
 # Name: Detect Local Admin Solution.ps1
-# Description: Creates local admin account to use with remote access, that auto disables on first use.
+# Description: Detect use of tool to create local admin account to use with remote access, that auto disables on first use. (Or any other account and status.)
 # Copyright (C) 2024 Action1 Corporation
 # Documentation: https://github.com/Action1Corp/ReportDataSources
 # Use Action1 Roadmap system (https://roadmap.action1.com/) to submit feedback or enhancement requests.
@@ -18,4 +18,4 @@
 # LIMITATIONS AND EXCLUSIONS MAY NOT APPLY TO YOU.
 
 $U = "A1Admin"
-($(Invoke-Expression -Command "net user $U") -split '`n') | %{if($_ -match "^Account|^Password|^Last"){$kvp=($_ -split '\ \ +');New-Object -TypeName psobject -Property $([ordered]@{Attribute=$kvp[0];Value=$kvp[1];A1_Key=[System.GUID]::NewGuid()})}}
+($(Invoke-Expression "net user $U") -split '`n') | %{if($_ -match "^Account|^Password|^Last"){$V=($_ -split '\ \ +');New-Object -TypeName psobject -Property $([ordered]@{Attribute=$V[0];Value=$V[1];A1_Key=$V[0]})}}
