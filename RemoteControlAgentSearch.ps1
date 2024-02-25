@@ -17,10 +17,12 @@
 # EXCLUSION OR LIMITATION OF INCIDENTAL OR CONSEQUENTIAL DAMAGES, SO THE ABOVE
 # LIMITATIONS AND EXCLUSIONS MAY NOT APPLY TO YOU.
 
-#to implement a “detect” system must be running a test process by name, when the daatsource is created.
-#in the example, I used 'zzzzz', but you can target any process not really expected to be there after this step.
-
 $return = @()
-$agents = @('zzzzz','AeroAdmin','AgentMon','Ammyy','AnyDesk','Atera','AteraAgent','AteraRC','Auvik.Agent','Auvik.Engine','awesome-rat','ccme_sm','chaos','Chrome Remote Desktop','ConnectWise','DameWare Mini Remote Control','Dameware','Deployment tools','Domotz','DomotzClient','eHorus','Fixme','FlawedAmmyy','friendspeak','Get2','getandgo','GetASRSettings','GoToAssist','Intelliadmin','ir_agent','klnagent','konea','kworking','LogMeIn','LogMeIn','LTAService','LTClient','LTSvcMon','MeshCentral','mRemoteNG','NAPClt','NetSupport','ngrok','NinjaRMM','NinjaRMM','NinjaRMMAgent','nssm','OCS Agent','PDQDeploy','Plink','Pulseway.TrayApp','PulsewayService','putty','QuickAssist','BASupSrvc','BASupSrvcCnfg','Radmin','RealVNC','Remote Manipulator System','Remote Utilities','RemotePC','rustdesk','ScreenConnect.Client','ScreenConnect.ClientService','ScreenConnect.Service','ScreenConnect.WindowsClient','ScreenConnect','Splashtop','SRAgent','SRUtility','SupRemo','Syncro','tacticalrmm','TacticalRMM','TakeControlRDViewer','Tanium','teamviewer','TigerVNC','TightVNC','tmate','UltraViewer','VncClient','VNCconnect','WAPT','Webex remote','winvnc','ZA_Connect','za_access_my_department','ZohoAssist')
-Get-Process  | Foreach-Object {if ($agents -contains $_.ProcessName){$return += New-Object -TypeName psobject -Property $([ordered]@{message="Potential suspicious process found: $($_.ProcessName)";A1_Key='AgentSearch'})}}
+$agents = @('AeroAdmin','AgentMon','Ammyy','AnyDesk','Atera','AteraAgent','AteraRC','Auvik.Agent','Auvik.Engine','awesome-rat','ccme_sm','chaos','Chrome Remote Desktop','ConnectWise','DameWare Mini Remote Control','Dameware','Deployment tools','Domotz','DomotzClient','eHorus','Fixme','FlawedAmmyy','friendspeak','Get2','getandgo','GetASRSettings','GoToAssist','Intelliadmin','ir_agent','klnagent','konea','kworking','LogMeIn','LogMeIn','LTAService','LTClient','LTSvcMon','MeshCentral','mRemoteNG','NAPClt','NetSupport','ngrok','NinjaRMM','NinjaRMM','NinjaRMMAgent','nssm','OCS Agent','PDQDeploy','Plink','Pulseway.TrayApp','PulsewayService','putty','QuickAssist','BASupSrvc','BASupSrvcCnfg','Radmin','RealVNC','Remote Manipulator System','Remote Utilities','RemotePC','rustdesk','ScreenConnect.Client','ScreenConnect.ClientService','ScreenConnect.Service','ScreenConnect.WindowsClient','ScreenConnect','Splashtop','SRAgent','SRUtility','SupRemo','Syncro','tacticalrmm','TacticalRMM','TakeControlRDViewer','Tanium','teamviewer','TigerVNC','TightVNC','tmate','UltraViewer','VncClient','VNCconnect','WAPT','Webex remote','winvnc','ZA_Connect','za_access_my_department','ZohoAssist')
+foreach ($process in $(Get-Process)){
+    foreach ($agent in $agents) {
+        if ($process.ProcessName -like "*$agent*"){$return += New-Object -TypeName psobject -Property $([ordered]@{message="Potential suspicious process found: $($process.ProcessName)";A1_Key='AgentSearch'})}
+    }
+}
+if($return.Count -eq 0){$return += New-Object -TypeName psobject -Property $([ordered]@{message='No suspicious process found.';A1_Key='AgentSearch'})}
 $return
