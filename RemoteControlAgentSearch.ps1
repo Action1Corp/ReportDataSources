@@ -21,8 +21,8 @@ $return = @()
 $agents = @('aeroadmin','agentmon','ammyy','anydesk','atera','auvik','awesome-rat','basup','ccme_sm','chaos','chrome remote desktop','connectwise','dameware','deployment tools','domotz','ehorus','fixme','flawedammyy','friendspeak','get2','getandgo','getasrsettings','goto','intelliadmin','ir_agent','klnagent','konea','kworking','logmein','ltaservice','ltclient','ltsvcmon','meshcentral','mremoteng','napclt','netsupport','ngrok','ninja','nssm','ocs agent','pdqdeploy','plink','pulseway','putty','quickassist','radmin','remote','rustdesk','screenconnect','splashtop','sragent','srutility','supremo','syncro','tacticalrmm','takecontrolrdviewer','tanium','teamviewer','tmate','ultraviewer','vnc','wapt','webex','za_access_my_department','za_connect','zohoassist')
 foreach ($process in $(Get-Process)){
     foreach ($agent in $agents) {
-        if ($process.ProcessName -like "*$agent*"){$return += New-Object -TypeName psobject -Property $([ordered]@{message="Potential suspicious process found: $($process.ProcessName)";A1_Key='AgentSearch'})}
+        if ($process.ProcessName -like "*$agent*"){$return += New-Object -TypeName psobject -Property $([ordered]@{message="Potential remote management tool found: $($process.ProcessName)";A1_Key='AgentSearch'})}
     }
 }
-if($return.Count -eq 0){$return += New-Object -TypeName psobject -Property $([ordered]@{message='No suspicious process found.';A1_Key='AgentSearch'})}
+if($return.Count -eq 0){$return += New-Object -TypeName psobject -Property $([ordered]@{message='No remote management tool found.';A1_Key='AgentSearch'})}
 $return
