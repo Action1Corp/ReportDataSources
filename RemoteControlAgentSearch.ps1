@@ -37,6 +37,7 @@ Foreach ($process in $processes){
                                                                   ProcessName=$process.Name;
                                                                   Version=(Get-Process -Id $process.ProcessId -FileVersionInfo).FileVersion;
                                                                   PID=$process.ProcessId;
+                                                                  MD5Hash=(Get-FileHash -Path (Get-Process -Id $process.ProcessId -FileVersionInfo).FileName -Algorithm MD5).Hash;
                                                                   A1_Key=$process.Name})
          }
         }
@@ -47,6 +48,7 @@ if($return.Length -eq 0){$return += New-Object psobject -Property  ([ordered]@{M
                                                                   ProcessName='';
                                                                   Version='';
                                                                   PID='';
+                                                                  MD5Hash='';
                                                                   A1_Key='default'})
 }
 
