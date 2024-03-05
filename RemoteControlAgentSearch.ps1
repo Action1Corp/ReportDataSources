@@ -18,7 +18,7 @@
 # LIMITATIONS AND EXCLUSIONS MAY NOT APPLY TO YOU.
 
 $return = @()
-$ignore = @('system idle process','system','registry')
+$ignore = @('action1_agent.exe','system idle process','system','registry')
 $products = ((Invoke-WebRequest -Uri https://raw.githubusercontent.com/Action1Corp/Remote-Agent-Catalog/main/rmm.csv -UseBasicParsing).Content | `
              ConvertFrom-Csv) | `
              select Software, Executables | `
