@@ -18,11 +18,34 @@
 # LIMITATIONS AND EXCLUSIONS MAY NOT APPLY TO YOU.
 
 $return = @()
-$agents = @('aeroadmin','agentmon','ammyy','anydesk','atera','auvik','awesome-rat','basup','ccme_sm','chaos','chrome remote desktop','connectwise','dameware','deployment tools','domotz','ehorus','fixme','flawedammyy','friendspeak','get2','getandgo','getasrsettings','goto','intelliadmin','ir_agent','klnagent','konea','kworking','logmein','ltaservice','ltclient','ltsvcmon','meshcentral','mremoteng','napclt','netsupport','ngrok','ninja','nssm','ocs agent','pdqdeploy','plink','pulseway','putty','quickassist','radmin','remote','rustdesk','screenconnect','splashtop','sragent','srutility','supremo','syncro','tacticalrmm','takecontrolrdviewer','tanium','teamviewer','tmate','ultraviewer','vnc','wapt','webex','za_access_my_department','za_connect','zohoassist')
-foreach ($process in $(Get-Process)){
-    foreach ($agent in $agents) {
-        if ($process.ProcessName -like "*$agent*"){$return += New-Object -TypeName psobject -Property $([ordered]@{message="Potential remote management tool found: $($process.ProcessName)";A1_Key='AgentSearch'})}
+$ignore = @('action1_agent.exe','system idle process','system','registry')
+$products = ((Invoke-WebRequest -Uri https://raw.githubusercontent.com/Action1Corp/Remote-Agent-Catalog/main/rmm.csv -UseBasicParsing).Content | `
+             ConvertFrom-Csv) | `
+             select Software, Executables | `
+             Where-Object {$_.Executables -ne ''}
+
+$processes = Get-WmiObject Win32_Process | Where-Object {-not ($ignore -contains $_.Name)}
+
+
+Foreach ($process in $processes){
+    Foreach($product in $products){
+        $bins = $product.Executables -Split ','
+        foreach($bin in $bins){
+         if($bin -like $process.Name){
+            $return += New-Object psobject -Property  ([ordered]@{Message="Found possible remote control application.";
+                                                                  Product=$product.Software;
+                                                                  ProcessName=$process.Name;
+                                                                  PID=$process.ProcessId;
+                                                                  A1_Key=$process.Name})
+         }
+        }
     }
 }
-if($return.Count -eq 0){$return += New-Object -TypeName psobject -Property $([ordered]@{message='No remote management tool found.';A1_Key='AgentSearch'})}
+if($return.Length -eq 0){$return += New-Object psobject -Property  ([ordered]@{Message="No remote control applications found.";
+                                                                  Product='';
+                                                                  ProcessName='';
+                                                                  PID='';
+                                                                  A1_Key='default'})
+}
+
 $return
