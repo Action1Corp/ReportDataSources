@@ -31,7 +31,7 @@ Foreach ($process in $processes){
     Foreach($product in $products){
         $bins = $product.Executables -Split ','
         foreach($bin in $bins){
-         if($bin -like $process.Name){
+         if($process.Name -like $bin){
             $return += New-Object psobject -Property  ([ordered]@{Message="Found possible remote control application.";
                                                                   Product=$product.Software;
                                                                   ProcessName=$process.Name;
