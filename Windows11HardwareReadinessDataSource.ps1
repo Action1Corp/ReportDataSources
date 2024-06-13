@@ -1,7 +1,7 @@
 ﻿# Name: Windows11HardwareReadinessDataSource.ps1
-# Description: Takes Microsofts Hardware Readiness Script and Turns it into a Report that can be Run via Action1 Data Sources
+# Description: Takes Microsofts Hardware Readiness Script and Turns it into a Report that can be Run via Action1 Data Sources - See below documentation link for more information.
 # Copyright (C) 2024 Action1 Corporation
-# Documentation: https://github.com/Action1Corp/PSAction1/
+# Documentation: https://www.action1.com/documentation/data-sources/
 # Use Action1 Roadmap system (https://roadmap.action1.com/) to submit feedback or enhancement requests.
 
 # WARNING: Carefully study the provided scripts and components before using them. Test in your non-production lab first.
