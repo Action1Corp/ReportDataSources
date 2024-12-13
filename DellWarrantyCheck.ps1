@@ -1,5 +1,4 @@
-﻿
-# Name: DellWarrantyCheck.ps1
+﻿# Name: DellWarrantyCheck.ps1
 # Description: Will check against Dell's API and present Warranty information on your Dell devices
 # Copyright (C) 2024 Action1 Corporation
 # Documentation: https://www.action1.com/documentation/data-sources/
