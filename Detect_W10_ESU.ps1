@@ -1,6 +1,6 @@
 # Name: Detect_W10_ESU.ps1
-# Description: Determine if the system has ESU licensing installed and details about OS.
-# Copyright (C) 2024 Action1 Corporation
+# Description: Determine if the system has ESU licensing installed OR not and details about OS.
+# Copyright (C) 2025 Action1 Corporation
 # Documentation: https://github.com/Action1Corp/ReportDataSources
 # Use Action1 Roadmap system (https://roadmap.action1.com/) to submit feedback or enhancement requests.
 
@@ -32,6 +32,17 @@ $comp = Get-ComputerInfo
             "Description" = ($Key.Description)
             "LicenseStatus" = ($Key.LicenseStatus)
             "PartialProductKey" = ($Key.PartialProductKey)
+            A1_Key              = "$($env:COMPUTERNAME)"
+        })
+    }else{
+     New-Object -Type PSCustomObject -Property $([ordered]@{
+            "Name" = $comp.WindowsProductName
+            "Version" = $comp.OsVersion
+            "Release" = $comp.OsDisplayVersion
+            "Edition" = $comp.WindowsEditionId
+            "Description" = ("NO ESU Applied")
+            "LicenseStatus" = ("N/A")
+            "PartialProductKey" = ("N/A")
             A1_Key              = "$($env:COMPUTERNAME)"
         })
     }
